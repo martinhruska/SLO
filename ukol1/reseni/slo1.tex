@@ -1,0 +1,60 @@
+%Autor: Martin Hruska
+%E-mail: xhrusk16@stud.fit.vutbr.cz
+%Datum: 15.11.2013
+
+\documentclass[a4paper]{article}
+\usepackage[left=1.5cm, text={18cm, 25cm}, top=2.5cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[noend,noline,commentsnumbered,linesnumbered,czech]{algorithm2e}
+\usepackage{tikz}
+\usetikzlibrary{automata,arrows,topaths}
+\renewcommand{\KwIn}[1]{\textbf{Vstup:} #1\\}
+\renewcommand{\KwOut}[1]{\textbf{Výstup:} #1\\}
+
+\usepackage{mdwlist}
+\newcommand{\myuv}[1]{\quotedblbase #1\textquotedblleft}
+
+\usepackage{atbegshi,picture}
+\AtBeginShipout{\AtBeginShipoutUpperLeft{%
+  \put(\dimexpr\paperwidth-1cm\relax,-1.5cm){\makebox[0pt][r]{\framebox{Martin Hruška, xhrusk16}}}%
+}}
+
+
+\title {1. úloha}
+\begin {document}
+\section*{\centering{3. příklad}}
+\begin{enumerate}
+    \item Nechť je $L$ regulární jazyk a $L \in NTIME(f(n))$
+    \item Jazyk $L$ je regulární, tudíž ho lze popsat pomocí deterministického konečného automatu\\ $M_{KA}=(Q_{KA},\Sigma, \delta_{KA}, q_{0_{KA}}, F_{KA})$.
+    \item Tento automat pak lze simulovat pomocí deterministického Turingova stroje Turingova stroje $M=(Q, \Sigma, \Gamma, \delta, q_0, q_f)$, kde:
+    \begin{itemize}
+        \item $Q=Q_{KA}\cup {q_f}$
+        \item $\Gamma = \Sigma \cup {\delta}$
+        \item $\delta$ je zkonstruovaná následovně:
+        \begin{itemize}
+            \item $\forall q \in Q \forall a \in \Sigma: (q,R) = \delta(p,a) \Leftrightarrow q=\delta_{KA}(p,a)$
+            \item $\forall q \in F_{KA}: (q_f,\Delta) = \delta(q,\Delta)$
+        \end{itemize}
+        \item $q_0 = q_{0_{KA}}$
+        \item $q_f \in Q \wedge q_f \notin Q_{KA}$
+    \end{itemize}
+    \item Počáteční konfigurace $M$ je $(q_0,\underline{a_1} a_2 a_3\ldots a_n\Delta^{\omega})$, kde $a_1a_2a_3\ldots a_n \in \Sigma^*$
+    \item Časová složitost stroje $M$ je funkce $T_M(n)=n+1$, a tedy stroj libovolný vstup zpracuje nanejvýš po $n+1$ krocích.
+    Z~jeho definice je zřejmé (by rapid handwaving), že musí projít přes první symbol řetězce $w$ až po jeho poslední symbol a poté teprve
+    přejde do koncového stavu.
+    V~každém kroku, kdy má pod hlavou symbol z~$\Sigma$ udělá pohyb hlavou doprava nebo se zasekne a tím řetězec odmítne.
+    Takových to kroků udělá nanejvýše $n$, kde $|\omega| = n$.
+    Pokud je pod hlavou symbol $\Delta$ může buď přejít do koncového stavu nebo se zaseknout, a tak řetězec odmítnout.
+    Tavovýto krok může být učiněn maximálně jeden.
+    Dohromady ted může provést nejvýše $n+1$ kroků.
+    \item Bylo ukázáno, že pro libovolný jazyk lze sestavit deterministický Turingův s~$T_M(n)=n+1$, a proto takový jazyk
+    bude patřit $DTIME(O(n))$.
+    \item Jelikož $DTIME(f(n)) = \{L\,|\, \emph{existuje TM }M' \emph{ rozhodující }L\emph{ s~časovou složitostí } T_{M'}(n) \leq f(n)\}$ a zároveň
+    víme, že $\forall n \in N.f(n) \geq n$ a $T_M(n)=n$, tedy dohromady $T_M(n)=n \leq f(n)$, a tudíž $L\in DTIME(f(n))$ $\square$
+\end{enumerate}
+\end{document}
