@@ -27,6 +27,59 @@
 
 \title {1. úloha}
 \begin {document}
+\section*{\centering{1. příklad}}
+Mějme Turingův stroj M rozhodující L fungující následujícím způsobem:
+\begin{enumerate}
+    \item Vstup bude na pásce M zapsán v~následujícím tvaru $\Delta a^j b^k c^l\Delta$, kde $j,k,l \in \mathbb{N}$.
+    Pro zbytek příkladu uvažujme, že $n=j+k+l$
+    \item Stroj přejde na začátek pásky (maximálně $n$ kroků).
+    \item Stroj přejde doprava na první symbol z~množniny $\{a,b,c\}$.
+    Pokud tímtom symbolem není $a$, pak provede abnormální ukončení a řetězec odmítne.
+    Pokud není na pásce žádný symbol z~dané množiny, stroj příjme řetězec.
+    V~tomto bodě se provede vždy maximálně $\frac{n}{3}$ kroků stroje.
+    \item Stroj se nachází symbolu $a$. Tento symbol nahradí symbolem $\Delta$ (1 krok stroje)
+    \item Stroj přejde na první symbol $b$.
+    Pokud takový symbol na pásce není, provede abnormální ukončení.
+    Stroj v~tomto bodu provede maximálně $\frac{n}{3}$ kroků.
+    \item Stroj nahradí symbol $b$ za symbol $\Delta$ (1 krok stroje).
+    \item Stroj přejde na první výskyt symbol $c$ (maximálně $\frac{n}{3}$ kroků).
+    Pokud takovýto symbol neexistuje, provede abnormální ukončení výpočtu.
+    \item Vrať se na bod 2.
+\end{enumerate}
+Algoritmus pracuje v~cyklech (vznikají v~bodu 8),
+jejichž maximální počet bude $\frac{n}{3}$, jelikož v~každém cyklu přepíše jeden symbol $a$ a skončit může, až přepíše
+všechny tyto symboly (tedy po maximálně $\frac{n}{3}$ opakování) nebo v~případě odmítnutí dříve.
+Stroj v~jednom cyklu provede maximálně $n+\frac{n}{3}+1+\frac{n}{3}+1+\frac{n}{3}=2*n+2$ kroků, celý výpočet pak zabere
+maximálně $\frac{n}{2}*(2*n+2)=n^2+n=O(n^2)$ kroků. Horní odhad složitosti výpočtu tedy je $O(n^2)$.
+
+Zmíněný algoritmus pracuje pouze na části pásky dané vstupem, jelikož přepisuje jeho jednotlivé symboly.
+Horní odhad prostorové složitosti je tedy $|a^j b^k c^l|=n=O(n)$. 
+
+\section*{\centering{2. příklad}}
+RAM program řešící zadanou úlohu je následující:
+\begin{enumerate}
+    \item LOAD =0
+    \item STORE 3
+    \item READ 2
+    \item STORE 2
+    \item READ 1
+    \item SUB 2
+    \item JNEG 14
+    \item STORE 1
+    \item LOAD 3
+    \item ADD =1
+    \item STORE 3
+    \item LOAD 1
+    \item JUMP 6
+    \item HALT
+\end{enumerate}
+
+Při analýze uniformní složitosti přepokládáme, že každá instrukce má stejnou časovou složitost.
+V~bodě 13 vzniká cyklus, který má časovou složitost $8$. Program mimo cyklus má časovou složitost $6$.
+Cyklus se neprovede více než $n1$-krát, a tedy dostáváme horní odhad časové složitosti $8*2^n+6=O(2^{n})$,
+protože $n1 \leq 2^n$.
+Horní odhad prostorové složitosti je pak $2+4=6$, kde $2$ je počet vstupních hodnot a $4$ je počet použitých registrů. 
+
 \section*{\centering{3. příklad}}
 \begin{enumerate}
     \item Nechť je $L$ regulární jazyk a $L \in NTIME(f(n))$
