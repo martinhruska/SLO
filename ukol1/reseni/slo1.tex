@@ -77,8 +77,14 @@ RAM program řešící zadanou úlohu je následující:
 Při analýze uniformní složitosti přepokládáme, že každá instrukce má stejnou časovou složitost.
 V~bodě 13 vzniká cyklus, který má časovou složitost $8$. Program mimo cyklus má časovou složitost $6$.
 Cyklus se neprovede více než $n1$-krát, a tedy dostáváme horní odhad časové složitosti $8*2^n+6=O(2^{n})$,
-protože $n1 \leq 2^n$.
+protože $n1 \leq 2^n$, kde $n$ je délka vstupu.
 Horní odhad prostorové složitosti je pak $2+4=6$, kde $2$ je počet vstupních hodnot a $4$ je počet použitých registrů. 
+
+Při analýzy logaritmické složitosti víme, že žádná instrukce nebude v~programu pracovat s~číslem větším než $2^n$
+(kde $n$ je opět délka vstupu).
+Časová složitost algoritmu bude tudíž $8*log(2^n)+6*log(2^n)$ a vzhledem k~počtu opakování cyklu, které zůstává
+stejné jako v~předchozím případu, bude horní odhad složitosti algoritmu v~$O(log(2^n)*2^n)$.
+Jelikož žádná z~instrukcí nepracuje s~číslem delším než $n$, tak prostorová složitost bude v~$O(n)$.
 
 \section*{\centering{3. příklad}}
 \begin{enumerate}
