@@ -10,6 +10,7 @@
 \usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{verbatim}
 \usepackage[noend,noline,commentsnumbered,linesnumbered,czech]{algorithm2e}
 \usepackage{tikz}
 \usetikzlibrary{automata,arrows,topaths}
@@ -30,29 +31,29 @@
 \section*{\centering{1. příklad}}
 Mějme Turingův stroj M rozhodující L fungující následujícím způsobem:
 \begin{enumerate}
-    \item Vstup bude na pásce M zapsán v~následujícím tvaru $\Delta a^j b^k c^l\Delta$, kde $j,k,l \in \mathbb{N}$.
+    \item Vstup bude na pásku stroje M zapsán v~následujícím tvaru $\Delta a^j b^k c^l\Delta$, kde $j,k,l \in \mathbb{N}$.
     Pro zbytek příkladu uvažujme, že $n=j+k+l$
-    \item Stroj přejde na začátek pásky (maximálně $n$ kroků).
+    \item Stroj přejde na začátek pásky (maximálně $n$ kroků, tedy složitost $O(n)$).
     \item Stroj přejde doprava na první symbol z~množniny $\{a,b,c\}$.
     Pokud tímtom symbolem není $a$, pak provede abnormální ukončení a řetězec odmítne.
     Pokud není na pásce žádný symbol z~dané množiny, stroj příjme řetězec.
-    V~tomto bodě se provede vždy maximálně $\frac{n}{3}$ kroků stroje.
-    \item Stroj se nachází symbolu $a$. Tento symbol nahradí symbolem $\Delta$ (1 krok stroje)
+    Tento krok má složitost $O(n)$.
+    \item Stroj se nachází na symbolu $a$. Tento symbol nahradí symbolem $\Delta$ (1 krok stroje)
     \item Stroj přejde na první symbol $b$.
     Pokud takový symbol na pásce není, provede abnormální ukončení.
-    Stroj v~tomto bodu provede maximálně $\frac{n}{3}$ kroků.
+    Složitost kroku je $O(n)$.
     \item Stroj nahradí symbol $b$ za symbol $\Delta$ (1 krok stroje).
-    \item Stroj přejde na první výskyt symbol $c$ (maximálně $\frac{n}{3}$ kroků).
+    \item Stroj přejde na první výskyt symbol $c$ (složitost $O(n)$).
     Pokud takovýto symbol neexistuje, provede abnormální ukončení výpočtu.
     \item Vrať se na bod 2.
 \end{enumerate}
 Algoritmus pracuje v~cyklech (vznikají v~bodu 8),
 jejichž maximální počet bude $\frac{n}{3}$, jelikož v~každém cyklu přepíše jeden symbol $a$ a skončit může, až přepíše
 všechny tyto symboly (tedy po maximálně $\frac{n}{3}$ opakování) nebo v~případě odmítnutí dříve.
-Stroj v~jednom cyklu provede maximálně $n+\frac{n}{3}+1+\frac{n}{3}+1+\frac{n}{3}=2*n+2$ kroků, celý výpočet pak zabere
-maximálně $\frac{n}{2}*(2*n+2)=n^2+n=O(n^2)$ kroků. Horní odhad složitosti výpočtu tedy je $O(n^2)$.
+Jeden cyklus v algoritmu má složiost $O(n)+O(n)+1+O(n)+1+O(n)=O(n)$, celý výpočet pak
+$\frac{n}{2}*O(n)=O(n^2)$. Horní odhad složitosti výpočtu tedy je $O(n^2)$.
 
-Zmíněný algoritmus pracuje pouze na části pásky dané vstupem, jelikož přepisuje jeho jednotlivé symboly.
+Popsaný algoritmus pracuje pouze na části pásky dané vstupem, jelikož přepisuje jeho jednotlivé symboly.
 Horní odhad prostorové složitosti je tedy $|a^j b^k c^l|=n=O(n)$. 
 
 \section*{\centering{2. příklad}}
@@ -64,39 +65,47 @@ RAM program řešící zadanou úlohu je následující:
     \item STORE 2
     \item READ 1
     \item SUB 2
-    \item JNEG 14
+    \item JNEG =14
     \item STORE 1
     \item LOAD 3
     \item ADD =1
     \item STORE 3
     \item LOAD 1
     \item JUMP 6
+    \item LOAD 3
     \item HALT
 \end{enumerate}
 
 Při analýze uniformní složitosti přepokládáme, že každá instrukce má stejnou časovou složitost.
-V~bodě 13 vzniká cyklus, který má časovou složitost $8$. Program mimo cyklus má časovou složitost $6$.
-Cyklus se neprovede více než $n1$-krát, a tedy dostáváme horní odhad časové složitosti $8*2^n+6=O(2^{n})$,
+V~bodě 13 vzniká cyklus, který obsahuje $8$ instrukcí a tedy má časovou složitost $8$. Program mimo cyklus má časovou složitost $7$.
+Cyklus se neprovede více než $n1$-krát, a tedy dostáváme horní odhad časové složitosti $8*2^n+7=O(2^{n})$,
 protože $n1 \leq 2^n$, kde $n$ je délka vstupu.
 Horní odhad prostorové složitosti je pak $2+4=6$, kde $2$ je počet vstupních hodnot a $4$ je počet použitých registrů. 
 
-Při analýzy logaritmické složitosti víme, že žádná instrukce nebude v~programu pracovat s~číslem větším než $2^n$
+Při analýze logaritmické složitosti víme, že žádná instrukce nebude v~programu pracovat s~číslem větším než $2^n$
 (kde $n$ je opět délka vstupu).
-Časová složitost algoritmu bude tudíž $8*log(2^n)+6*log(2^n)$ a vzhledem k~počtu opakování cyklu, které zůstává
-stejné jako v~předchozím případu, bude horní odhad složitosti algoritmu v~$O(log(2^n)*2^n)$.
-Jelikož žádná z~instrukcí nepracuje s~číslem delším než $n$, tak prostorová složitost bude v~$O(n)$.
+Cena instrukce bude tedy nejvýše $log(2^n)$.
+Počet cyklů vykonaných programem zůstává stejný a dohromady tedy dostáváme následující horní odhad časové složitosti
+$2^n*(8*log(2^n))+7*log(2^n)=O(log(2^n)*2^n)$.
+Žádná z~instrukcí nepracuje s~číslem delším než $n$ a žádné delší číslo nemůže být uloženo ani do registrů, jelikož výsledek výpočtu
+nepřesáhne hodnotu $n_1$. Horní odhad prostorové složitosti tedy bude $n+4*O(n)=O(n)$.
 
 \section*{\centering{3. příklad}}
 \begin{enumerate}
     \item Nechť je $L$ regulární jazyk a $L \in NTIME(f(n))$
-    \item Jazyk $L$ je regulární, tudíž ho lze popsat pomocí deterministického konečného automatu\\ $M_{KA}=(Q_{KA},\Sigma, \delta_{KA}, q_{0_{KA}}, F_{KA})$.
-    \item Tento automat pak lze simulovat pomocí deterministického Turingova stroje Turingova stroje $M=(Q, \Sigma, \Gamma, \delta, q_0, q_f)$, kde:
+    \item Jazyk $L$ je regulární, tudíž ho lze popsat pomocí deterministického konečného automatu.%\\ $M_{KA}=(Q_{KA},\Sigma, \delta_{KA}, q_{0_{KA}}, F_{KA})$.
+    Automat příjme (nebo odmítne) řetězec vždy nejvýše po přečtení celého vstupu (tedy po $n$ krocích),
+    jelikož se vždy po přečtení symbolu přesune na pásce o~jedno místo doprava.
+    \item Mějme Turingův stroj $M$ pracující stejně jako deterministický automat, tudíž bude také deterministický, vstupní řetězec zpracuje
+    nejvýše po $n$ krocích a přijímá jazyk $L$
+    \begin{comment}
+    \item Tento automat pak lze simulovat pomocí deterministického Turingova stroje $M=(Q, \Sigma, \Gamma, \delta, q_0, q_f)$, kde:
     \begin{itemize}
-        \item $Q=Q_{KA}\cup {q_f}$
-        \item $\Gamma = \Sigma \cup {\delta}$
+        \item $Q=Q_{KA}\cup \{q_f\}$
+        \item $\Gamma = \Sigma \cup \{\Delta\}$
         \item $\delta$ je zkonstruovaná následovně:
         \begin{itemize}
-            \item $\forall q \in Q \forall a \in \Sigma: (q,R) = \delta(p,a) \Leftrightarrow q=\delta_{KA}(p,a)$
+            \item $\forall q \in Q\, \forall a \in \Sigma: (q,R) = \delta(p,a) \Leftrightarrow q=\delta_{KA}(p,a)$
             \item $\forall q \in F_{KA}: (q_f,\Delta) = \delta(q,\Delta)$
         \end{itemize}
         \item $q_0 = q_{0_{KA}}$
@@ -104,15 +113,16 @@ Jelikož žádná z~instrukcí nepracuje s~číslem delším než $n$, tak prost
     \end{itemize}
     \item Počáteční konfigurace $M$ je $(q_0,\underline{a_1} a_2 a_3\ldots a_n\Delta^{\omega})$, kde $a_1a_2a_3\ldots a_n \in \Sigma^*$
     \item Časová složitost stroje $M$ je funkce $T_M(n)=n+1$, a tedy stroj libovolný vstup zpracuje nanejvýš po $n+1$ krocích.
-    Z~jeho definice je zřejmé (by rapid handwaving), že musí projít přes první symbol řetězce $w$ až po jeho poslední symbol a poté teprve
+    Z~jeho definice je zřejmé, že musí projít přes první symbol řetězce $w$ až po jeho poslední symbol a poté teprve
     přejde do koncového stavu.
     V~každém kroku, kdy má pod hlavou symbol z~$\Sigma$ udělá pohyb hlavou doprava nebo se zasekne a tím řetězec odmítne.
-    Takových to kroků udělá nanejvýše $n$, kde $|\omega| = n$.
+    Takovýchto kroků udělá nanejvýše $n$, kde $|\omega| = n$.
     Pokud je pod hlavou symbol $\Delta$ může buď přejít do koncového stavu nebo se zaseknout, a tak řetězec odmítnout.
-    Tavovýto krok může být učiněn maximálně jeden.
-    Dohromady ted může provést nejvýše $n+1$ kroků.
-    \item Bylo ukázáno, že pro libovolný jazyk lze sestavit deterministický Turingův s~$T_M(n)=n+1$, a proto takový jazyk
-    bude patřit $DTIME(O(n))$.
+    Tento krok může být učiněn maximálně jeden.
+    Dohromady tedy může provést nejvýše $n+1$ kroků.
+    \end{comment}
+
+    \item Turingův stroj má tedy časovou složitost $T_M(n)=n$, a proto jazyk $L$ bude patřit do $DTIME(O(n))$.
     \item Jelikož $DTIME(f(n)) = \{L\,|\, \emph{existuje TM }M' \emph{ rozhodující }L\emph{ s~časovou složitostí } T_{M'}(n) \leq f(n)\}$ a zároveň
     víme, že $\forall n \in N.f(n) \geq n$ a $T_M(n)=n$, tedy dohromady $T_M(n)=n \leq f(n)$, a tudíž $L\in DTIME(f(n))$ $\square$
 \end{enumerate}
