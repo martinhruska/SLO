@@ -31,11 +31,11 @@
 \section*{\centering{1. příklad}}
 Mějme Turingův stroj M rozhodující L fungující následujícím způsobem:
 \begin{enumerate}
-    \item Vstup bude na pásku stroje M zapsán v~následujícím tvaru $\Delta a^j b^k c^l\Delta$, kde $j,k,l \in \mathbb{N}$.
+    \item Stroje M začiná s~následujícím stavem pásky $\underline{\Delta} a^j b^k c^l\Delta$, kde $j,k,l \in \mathbb{N}$.
     Pro zbytek příkladu uvažujme, že $n=j+k+l$
-    \item Stroj přejde na začátek pásky (maximálně $n$ kroků, tedy složitost $O(n)$).
-    \item Stroj přejde doprava na první symbol z~množniny $\{a,b,c\}$.
-    Pokud tímtom symbolem není $a$, pak provede abnormální ukončení a řetězec odmítne.
+    \item Pokud M není na začátku pásky, tak na něj přejde (maximálně $n$ kroků, tedy složitost $O(n)$).
+    \item Stroj přejde doprava na první symbol z~množiny $\{a,b,c\}$.
+    Pokud tímto symbolem není $a$, pak provede abnormální ukončení a řetězec odmítne.
     Pokud není na pásce žádný symbol z~dané množiny, stroj příjme řetězec.
     Tento krok má složitost $O(n)$.
     \item Stroj se nachází na symbolu $a$. Tento symbol nahradí symbolem $\Delta$ (1 krok stroje)
@@ -50,8 +50,8 @@ Mějme Turingův stroj M rozhodující L fungující následujícím způsobem:
 Algoritmus pracuje v~cyklech (vznikají v~bodu 8),
 jejichž maximální počet bude $\frac{n}{3}$, jelikož v~každém cyklu přepíše jeden symbol $a$ a skončit může, až přepíše
 všechny tyto symboly (tedy po maximálně $\frac{n}{3}$ opakování) nebo v~případě odmítnutí dříve.
-Jeden cyklus v algoritmu má složiost $O(n)+O(n)+1+O(n)+1+O(n)=O(n)$, celý výpočet pak
-$\frac{n}{2}*O(n)=O(n^2)$. Horní odhad složitosti výpočtu tedy je $O(n^2)$.
+Jeden cyklus v~algoritmu má složitost $O(n)+O(n)+1+O(n)+1+O(n)=O(n)$, celý výpočet pak
+$\frac{n}{3}*O(n)=O(n^2)$. Horní odhad složitosti výpočtu tedy je $O(n^2)$.
 
 Popsaný algoritmus pracuje pouze na části pásky dané vstupem, jelikož přepisuje jeho jednotlivé symboly.
 Horní odhad prostorové složitosti je tedy $|a^j b^k c^l|=n=O(n)$. 
@@ -76,7 +76,7 @@ RAM program řešící zadanou úlohu je následující:
     \item HALT
 \end{enumerate}
 
-Při analýze uniformní složitosti přepokládáme, že každá instrukce má stejnou časovou složitost.
+Při analýze uniformní složitosti předpokládáme, že každá instrukce má stejnou časovou složitost.
 V~bodě 13 vzniká cyklus, který obsahuje $8$ instrukcí a tedy má časovou složitost $8$. Program mimo cyklus má časovou složitost $7$.
 Cyklus se neprovede více než $n1$-krát, a tedy dostáváme horní odhad časové složitosti $8*2^n+7=O(2^{n})$,
 protože $n1 \leq 2^n$, kde $n$ je délka vstupu.
@@ -93,7 +93,7 @@ nepřesáhne hodnotu $n_1$. Horní odhad prostorové složitosti tedy bude $n+4*
 \section*{\centering{3. příklad}}
 \begin{enumerate}
     \item Nechť je $L$ regulární jazyk a $L \in NTIME(f(n))$
-    \item Jazyk $L$ je regulární, tudíž ho lze popsat pomocí deterministického konečného automatu.%\\ $M_{KA}=(Q_{KA},\Sigma, \delta_{KA}, q_{0_{KA}}, F_{KA})$.
+    \item Jazyk $L$ je regulární, tudíž ho lze popsat pomocí deterministického konečného automatu. %\\ $M_{KA}=(Q_{KA},\Sigma, \delta_{KA}, q_{0_{KA}}, F_{KA})$.
     Automat příjme (nebo odmítne) řetězec vždy nejvýše po přečtení celého vstupu (tedy po $n$ krocích),
     jelikož se vždy po přečtení symbolu přesune na pásce o~jedno místo doprava.
     \item Mějme Turingův stroj $M$ pracující stejně jako deterministický automat, tudíž bude také deterministický, vstupní řetězec zpracuje
@@ -122,7 +122,7 @@ nepřesáhne hodnotu $n_1$. Horní odhad prostorové složitosti tedy bude $n+4*
     Dohromady tedy může provést nejvýše $n+1$ kroků.
     \end{comment}
 
-    \item Turingův stroj má tedy časovou složitost $T_M(n)=n$, a proto jazyk $L$ bude patřit do $DTIME(O(n))$.
+    \item Turingův stroj má tedy časovou složitost $T_M(n)=n$. % a proto jazyk $L$ bude patřit do $DTIME(O(n))$.
     \item Jelikož $DTIME(f(n)) = \{L\,|\, \emph{existuje TM }M' \emph{ rozhodující }L\emph{ s~časovou složitostí } T_{M'}(n) \leq f(n)\}$ a zároveň
     víme, že $\forall n \in N.f(n) \geq n$ a $T_M(n)=n$, tedy dohromady $T_M(n)=n \leq f(n)$, a tudíž $L\in DTIME(f(n))$ $\square$
 \end{enumerate}
