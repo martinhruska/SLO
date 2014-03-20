@@ -1,0 +1,57 @@
+%Autor: Martin Hruska
+%E-mail: xhrusk16@stud.fit.vutbr.cz
+%Datum: 20.3.2013
+
+\documentclass[a4paper]{article}
+\usepackage[left=1.5cm, text={18cm, 25cm}, top=2.5cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{automata,arrows,topaths}
+
+\usepackage{mdwlist}
+\newcommand{\myuv}[1]{\quotedblbase #1\textquotedblleft}
+
+\usepackage{atbegshi,picture}
+\AtBeginShipout{\AtBeginShipoutUpperLeft{%
+  \put(\dimexpr\paperwidth-1cm\relax,-1.5cm){\makebox[0pt][r]{\framebox{Martin Hruška, xhrusk16}}}%
+}}
+
+
+\title {2. úloha}
+\begin {document}
+\section*{\centering{1. příklad}}
+Napřed bude provedena analýza časové složitosti:
+\begin{itemize}
+    \item Inicializace jednotlivých datových struktur na řádcích $2,3$ bude provedena v~$n$ cyklech, kde $n$ je počet vrcholů vstupního grafu.
+    V~každém cyklu budou provedeny $3$ kroky.
+    Celkem tedy inicializace zabere $n*3$ kroků, což je v~$O(n)$.
+    \item Nastavení hodnot pro první uzel v~prohledávání, které je provedeno na řádku $4$, a následná inicializace fronty (řádek $5$) mají
+    složitost je $3+2=5$.
+    \item Cyklus na řádku $6$ bude proveden maximálně $n$-krát, jelikož každý uzel se do fronty dostane právě jednou.
+    Jedno provedení cyklu bude mít následující složitost:
+    \begin{itemize}
+        \item Výběr z~fronty na řádku $7$ bude trvat jeden krok výpočtu.
+        \item Cyklus na řádku $8$ se bude opakovat maximálně $n-1$, jelikož z~každého uzlu grafu může vést hrana do každého z~ostatních uzlů.
+        \item Tento cyklus obsahuje nejvýše $4$ kroky.
+        Dohromady má tedy cyklus z~řádku $8$ horní odhad složitosti $4*(n-1)=O(n)$
+        \item Operace na řádku $12$ má konstantní složitost $1$.
+    \end{itemize}
+    \item Jedno provedení cyklu na řádku $6$ bude mít tedy složitost $1+O(n)+1=O(n)$.
+    Celý cyklus pak má horní odhad složitosti $n*O(n)=O(n^2)$.
+\end{itemize}
+Celkem má tedy analyzovaná funkce horní odhad časové složitosti $O(n)+5+O(n^2)=O(n^2)$.
+
+Nyní přistupme k~analýze horního odhadu prostorové složitosti.
+V~algoritmu jsou použity datové struktury $state, d, p$.
+Každá z~nich obsahuje jednu položku pro každý uzel vstupního grafu, tedy mají prostorovou složitost $n+n+n=O(n)$.
+Dále je použita struktura $Queue$, která bude obsahovat nanejvýš $n-1$ uzlů vstupního grafu a má tedy prostorovou složitost $O(n)$.
+V~programu jsou také použit proměnné $u,v$, které mají prostorovou složitost $1+1=2$.
+Celkem je horní odhad prostorové složitosti programu $O(n)+O(n)+2=O(n)$.
+
+\end{document}

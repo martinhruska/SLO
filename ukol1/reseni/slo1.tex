@@ -1,6 +1,6 @@
 %Autor: Martin Hruska
 %E-mail: xhrusk16@stud.fit.vutbr.cz
-%Datum: 15.11.2013
+%Datum: 11.3.2013
 
 \documentclass[a4paper]{article}
 \usepackage[left=1.5cm, text={18cm, 25cm}, top=2.5cm]{geometry}
@@ -35,7 +35,7 @@ Mějme Turingův stroj M, který rozhoduje L a pracuje následujícím způsobem
     Pro zbytek příkladu uvažujme, že $n=j+k+l$.
     \item Stroj si označí konec vstupního řetězce na pásce tak, že za poslední symbol vstupu zapíše symbol $\#$.
     Složitost kroku je $O(n)$
-    \item Pokud M není na začátku pásky, tak na něj přejde (maximálně $n$ kroků, tedy složitost $O(n)$).
+    \item Pokud M nemá hlavu na začátku pásky, tak na něj přejde (maximálně $n$ kroků, tedy složitost $O(n)$).
     \item Stroj přejde na první symbol z~množiny $\{a,b,c\}$.
     Pokud tímto symbolem není $a$, pak provede abnormální ukončení a řetězec odmítne.
     Pokud není na pásce žádný symbol z~dané množiny, stroj příjme řetězec.
@@ -47,7 +47,7 @@ Mějme Turingův stroj M, který rozhoduje L a pracuje následujícím způsobem
     \item Stroj nahradí symbol $b$ za symbol $\Delta$ (1 krok stroje).
     \item Stroj přejde na první výskyt symbolu $c$ (složitost $O(n)$).
     Pokud takovýto symbol na pásce není, provede abnormální ukončení výpočtu.
-    \item Stroj na hradí symbol $c$ symbolem $\Delta$ (1 krok stroje).
+    \item Stroj nahradí symbol $c$ symbolem $\Delta$ (1 krok stroje).
     \item Vrať se na bod 3.
 \end{enumerate}
 Algoritmus pracuje v~cyklech (vznikají v~bodu 8),
@@ -84,14 +84,15 @@ Při analýze uniformní složitosti předpokládáme, že každá instrukce má
 V~bodě 13 vzniká cyklus, který obsahuje $8$ instrukcí a tedy má časovou složitost $8$. Program mimo cyklus má časovou složitost $7$.
 Cyklus se neprovede více než $n_1$-krát, a tedy dostáváme horní odhad časové složitosti $8*2^n+7=O(2^{n})$,
 protože $n_1 \leq 2^n$, kde $n$ je délka vstupu.
-Horní odhad prostorové složitosti je pak $2+4=6$, kde $2$ je počet vstupních hodnot a $4$ je počet použitých registrů. 
+Prostorová složitosti je $2+4=6$ (tedy konstantní), kde $2$ je počet vstupních hodnot a $4$ je počet použitých registrů.
+Horní odhad prostorové složitosti v~$O$ notaci je $O(1)$.
 
 Při analýze logaritmické složitosti víme, že žádná instrukce nebude v~programu pracovat s~číslem větším než $2^n$
 (kde $n$ je opět délka vstupu).
 Cena instrukce bude tedy nejvýše $log(2^n)$.
 Počet cyklů vykonaných programem zůstává stejný a dohromady tedy dostáváme následující horní odhad časové složitosti
 $2^n*(8*log(2^n))+7*log(2^n)=O(log(2^n)*2^n)$.
-Žádná z~instrukcí nepracuje s~číslem delším než $n$ a žádné delší číslo nemůže být uloženo ani do registrů, jelikož výsledek výpočtu
+Žádná z~instrukcí nepracuje s~číslem větší než $n$ a žádné větší číslo nemůže být uloženo ani do registrů, jelikož výsledek výpočtu
 nepřesáhne hodnotu $n_1$. Horní odhad prostorové složitosti tedy bude $n+4*O(n)=O(n)$, kde $n$ je délka vstupu a $4*O(n)$ říká, že v~žádném
 ze $4$ použitých registrů nebude uloženo číslo větší než $n$.
 
@@ -128,7 +129,7 @@ ze $4$ použitých registrů nebude uloženo číslo větší než $n$.
     \end{comment}
 
     \item Turingův stroj má tedy časovou složitost $T_M(n)=n$. % a proto jazyk $L$ bude patřit do $DTIME(O(n))$.
-    \item Jelikož $DTIME(f(n)) = \{L\,|\, \emph{existuje TM }M' \emph{ rozhodující }L\emph{ s~časovou složitostí } T_{M'}(n) \leq f(n)\}$ a zároveň
+    \item Jelikož $DTIME(f(n)) = \{L\,|\, \emph{existuje deterministický TM }M' \emph{ rozhodující }L\emph{ s~časovou složitostí } T_{M'}(n) \leq f(n)\}$ a zároveň
     víme, že $\forall n \in N.f(n) \geq n$ a $T_M(n)=n$, tedy dohromady $T_M(n)=n \leq f(n)$, a tudíž $L\in DTIME(f(n))$ $\square$
 \end{enumerate}
 \end{document}
