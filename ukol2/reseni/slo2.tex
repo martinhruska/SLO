@@ -41,11 +41,11 @@ Napřed bude provedena analýza časové složitosti:
     \begin{itemize}
         \item Výběr z~fronty na řádku $7$ bude trvat jeden krok výpočtu.
         \item Cyklus na řádku $8$ se bude opakovat maximálně $n-1$, jelikož z~každého uzlu grafu může vést hrana do každého z~ostatních uzlů.
-        \item Tento cyklus obsahuje nejvýše $4$ kroky.
+        \item Tento cyklus obsahuje nejvýše $5$ kroků.
         Dohromady má tedy cyklus z~řádku $8$ horní odhad složitosti $4*(n-1)=O(n)$
         \item Operace na řádku $12$ má konstantní složitost $1$.
     \end{itemize}
-    \item Jedno provedení cyklu na řádku $6$ bude mít tedy složitost $1+O(n)+1=O(n)$.
+    \item Jedna iterace cyklu na řádku $6$ bude mít tedy složitost $1+O(n)+1=O(n)$.
     Celý cyklus pak má horní odhad složitosti $n*O(n)=O(n^2)$.
 \end{itemize}
 Celkem má tedy analyzovaná funkce horní odhad časové složitosti $O(n)+5+O(n^2)=O(n^2)$.
@@ -62,13 +62,13 @@ Celkem je horní odhad prostorové složitosti programu $O(n)+O(n)+2=O(n)$.
 Důkaz NP-úplnosti $\rp$ problému bude proveden redukcí z~problému $\sbs$ v~jeho definici z~přednášek.
 Váhová funkce u~problému $\rp$ má jako obor hodnot definován obor $\mathbb{N}$ (předpokládejme, že $0 \in \mathbb{N}$), zatímco u~problému
 $\sbs$ je obor hodnot definován pro $\mathbb{Z}$.
-Pokud budeme předpokládat, že i problém $\sbs$ má vahovou funkci definovánou pro obor hodnot $\mathbb{N}$, tak důkaz NP-úplnosti
+Pokud budeme předpokládat, že i problém $\sbs$ má vahovou funkci definovánu pro obor hodnot $\mathbb{N}$, tak důkaz NP-úplnosti
 $\sbs$ v~podobě z~přednášek zůstává platný, neboť se v~tomto důkazu nepracuje se zápornými čísly jako hodnotami váhové funkce.
-Proto dále může předpokládat problém $\sbs$ s~váhovou funkcí s~oborem hodnot $\mathbb{N}$.
+Proto dále může předpokládat, že problém $\sbs$ s~váhovou funkcí s~oborem hodnot $\mathbb{N}$ je také $NP$-úplný.
 
 Redukce z~problému $\sbs$ na problém $\rp$ bude následující:
 \begin{itemize}
-\item Nechť $S$ je končná množina položek problému $\sbs$.
+\item Nechť $S$ je konečná množina položek problému $\sbs$.
 Konečná množina položek $T$ problému\\ $\rp$ je pak rovna $S=T \cup \{z\}$,
 kde $z \not \in S$.
 \item Poměr $r=1$
@@ -84,25 +84,26 @@ kde $w(S) = \sum_{s\in S} w(s)$, $w$ je váhová funkce a $W$ váha podmnožiny 
 \end{itemize}
 
 \section*{\centering{3. příklad}}
-Dokažme, že platí $P=NP \Leftrightarrow \ltl$ je $NP$-úplny.
+Dokažme, že platí $P=NP \Rightarrow \ltl$ je $NP$-úplný.
 Pokud je $\ltl$ $NP$-úplný, tak $\ltl$ je $NP$-těžký a $\ltl \in P$.
-Jazyk $\ltl$ lze příjímat deterministickým Turingovým strojem, který příjme právě řetězec $true$, a tudíž $\ltl \in P$.
+Jazyk $\ltl$ lze přijímat deterministickým Turingovým strojem, který příjme právě řetězec $true$, a tudíž $\ltl \in P$.
 Pokud je $\ltl$ $NP$-těžký tak platí, že $\forall L' \in NP: L' \leq \ltl$.
 Je tedy třeba ukázat, že existuje polynomiální redukce z~libovolného jazyka $L' \in NP$ na jazyk $\ltl$.
 Turingův stroj realizující polynomiální redukci by fungoval následujícím způsobem (předpokládejme TS $T_{L'}$ přijímající $L'$ a TS $T_{\ltl}$
-přijímající $\ltl$:
+přijímající $\ltl$):
 \begin{itemize}
     \item Turingův stroj zapíše na pásku $\omega \in L'$ a simuluje běh stroje $T_{L'}$.
     \item Pokud simulovaný stroj přijal, zapíše na pásku řetězec $true$, jinak řetězec $false$.
     \item Simuluje stroj $T_{\ltl}$ a příjme, pokud tento příjme.
 \end{itemize}
-Jelikož $L' \in NP$ a dle předpokladu $P=NP$, tak první krok stroje realizujícího redukci bude také v~$P$.
-Druhý krok stroje provádějícího redukci má konstatní složitost a třetí je opět v~$P$, protože $\ltl \in P$.
-Jelikož existuje polynomiální redukce z~libovolného $L' \in NP$ na $\ltl$, tak $\ltl$ je $NP$-těžké, a tedy $NP$-úplné.
+Jelikož $L' \in NP$ a dle předpokladu $P=NP$, tak první krok stroje realizujícího redukci bude v~$P$.
+Druhý krok stroje má konstantní složitost a třetí je opět v~$P$, protože $\ltl \in P$.
+Celkem má tedy Turingův stroj realizující redukci časovou složitost v~$P$.
+Jelikož existuje polynomiální redukce z~libovolného $L' \in NP$ na $\ltl$, tak $\ltl$ je $NP$-těžké, a tedy $NP$-úplné také.
 
 \section*{\centering{4. příklad}}
 V~příkladu 3 bylo ukázáno, že lze provést redukci jazyka $L' \in NP$ v~polynomiálním čase na jazyk $\ltl \in P$.
 Pokud bychom v~třetím kroku stroje z~minulého příkladu provádějícího redukci nahradili stroj $T_{\ltl}$ za stroj $T_L$ přijímající
-nějaký jazky $L\in NP$, tak by redukce zůstala polynomiální, jelikož předpokládáme $P=NP$, a tudíž je $L$ $NP$-těžký a tedy také
+nějaký jazyk $L\in NP$, tak by redukce zůstala polynomiální, jelikož předpokládáme $P=NP$, a tudíž $L$ je $NP$-těžký, a tudíž také
 $NP$-úplný.
 \end{document}
