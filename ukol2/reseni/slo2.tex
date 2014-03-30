@@ -16,6 +16,9 @@
 
 \usepackage{mdwlist}
 \newcommand{\myuv}[1]{\quotedblbase #1\textquotedblleft}
+\newcommand{\rp}{RATE\_PARTITION}
+\newcommand{\sbs}{SUBSET\ SUM}
+\newcommand{\ltl}{L_t}
 
 \usepackage{atbegshi,picture}
 \AtBeginShipout{\AtBeginShipoutUpperLeft{%
@@ -54,4 +57,52 @@ Dále je použita struktura $Queue$, která bude obsahovat nanejvýš $n-1$ uzl�
 V~programu jsou také použit proměnné $u,v$, které mají prostorovou složitost $1+1=2$.
 Celkem je horní odhad prostorové složitosti programu $O(n)+O(n)+2=O(n)$.
 
+
+\section*{\centering{2. příklad}}
+Důkaz NP-úplnosti $\rp$ problému bude proveden redukcí z~problému $\sbs$ v~jeho definici z~přednášek.
+Váhová funkce u~problému $\rp$ má jako obor hodnot definován obor $\mathbb{N}$ (předpokládejme, že $0 \in \mathbb{N}$), zatímco u~problému
+$\sbs$ je obor hodnot definován pro $\mathbb{Z}$.
+Pokud budeme předpokládat, že i problém $\sbs$ má vahovou funkci definovánou pro obor hodnot $\mathbb{N}$, tak důkaz NP-úplnosti
+$\sbs$ v~podobě z~přednášek zůstává platný, neboť se v~tomto důkazu nepracuje se zápornými čísly jako hodnotami váhové funkce.
+Proto dále může předpokládat problém $\sbs$ s~váhovou funkcí s~oborem hodnot $\mathbb{N}$.
+
+Redukce z~problému $\sbs$ na problém $\rp$ bude následující:
+\begin{itemize}
+\item Nechť $S$ je končná množina položek problému $\sbs$.
+Konečná množina položek $T$ problému\\ $\rp$ je pak rovna $S=T \cup \{z\}$,
+kde $z \not \in S$.
+\item Poměr $r=1$
+\item Pro váhovou funkci $v$ problému $\rp$ platí:\\
+        $$v=w\, \cup\, \{
+    v(z) = 
+        \begin{cases}
+            2*W-w(S) &\mbox{if } W \geq (w(S)-W) \\
+            w(S)-2*W & \mbox{if } W < (w(S)-W) 
+        \end{cases}
+\},$$
+kde $w(S) = \sum_{s\in S} w(s)$, $w$ je váhová funkce a $W$ váha podmnožiny v~$\sbs$.
+\end{itemize}
+
+\section*{\centering{3. příklad}}
+Dokažme, že platí $P=NP \Leftrightarrow \ltl$ je $NP$-úplny.
+Pokud je $\ltl$ $NP$-úplný, tak $\ltl$ je $NP$-těžký a $\ltl \in P$.
+Jazyk $\ltl$ lze příjímat deterministickým Turingovým strojem, který příjme právě řetězec $true$, a tudíž $\ltl \in P$.
+Pokud je $\ltl$ $NP$-těžký tak platí, že $\forall L' \in NP: L' \leq \ltl$.
+Je tedy třeba ukázat, že existuje polynomiální redukce z~libovolného jazyka $L' \in NP$ na jazyk $\ltl$.
+Turingův stroj realizující polynomiální redukci by fungoval následujícím způsobem (předpokládejme TS $T_{L'}$ přijímající $L'$ a TS $T_{\ltl}$
+přijímající $\ltl$:
+\begin{itemize}
+    \item Turingův stroj zapíše na pásku $\omega \in L'$ a simuluje běh stroje $T_{L'}$.
+    \item Pokud simulovaný stroj přijal, zapíše na pásku řetězec $true$, jinak řetězec $false$.
+    \item Simuluje stroj $T_{\ltl}$ a příjme, pokud tento příjme.
+\end{itemize}
+Jelikož $L' \in NP$ a dle předpokladu $P=NP$, tak první krok stroje realizujícího redukci bude také v~$P$.
+Druhý krok stroje provádějícího redukci má konstatní složitost a třetí je opět v~$P$, protože $\ltl \in P$.
+Jelikož existuje polynomiální redukce z~libovolného $L' \in NP$ na $\ltl$, tak $\ltl$ je $NP$-těžké, a tedy $NP$-úplné.
+
+\section*{\centering{4. příklad}}
+V~příkladu 3 bylo ukázáno, že lze provést redukci jazyka $L' \in NP$ v~polynomiálním čase na jazyk $\ltl \in P$.
+Pokud bychom v~třetím kroku stroje z~minulého příkladu provádějícího redukci nahradili stroj $T_{\ltl}$ za stroj $T_L$ přijímající
+nějaký jazky $L\in NP$, tak by redukce zůstala polynomiální, jelikož předpokládáme $P=NP$, a tudíž je $L$ $NP$-těžký a tedy také
+$NP$-úplný.
 \end{document}
