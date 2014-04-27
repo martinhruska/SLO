@@ -37,12 +37,12 @@ Napřed bude provedena analýza časové složitosti:
     \item Nastavení hodnot pro první uzel v~prohledávání, které je provedeno na řádku $4$, a následná inicializace fronty (řádek $5$) mají
     složitost je $3+2=5$.
     \item Cyklus na řádku $6$ bude proveden maximálně $n$-krát, jelikož každý uzel se do fronty dostane právě jednou.
-    Jedno provedení cyklu bude mít následující složitost:
+    Jedna iterace cyklu bude mít následující složitost:
     \begin{itemize}
         \item Výběr z~fronty na řádku $7$ bude trvat jeden krok výpočtu.
         \item Cyklus na řádku $8$ se bude opakovat maximálně $n-1$, jelikož z~každého uzlu grafu může vést hrana do každého z~ostatních uzlů.
         \item Tento cyklus obsahuje nejvýše $5$ kroků.
-        Dohromady má tedy cyklus z~řádku $8$ horní odhad složitosti $4*(n-1)=O(n)$
+        Dohromady má tedy cyklus z~řádku $8$ horní odhad složitosti $5*(n-1)=O(n)$
         \item Operace na řádku $12$ má konstantní složitost $1$.
     \end{itemize}
     \item Jedna iterace cyklu na řádku $6$ bude mít tedy složitost $1+O(n)+1=O(n)$.
@@ -59,7 +59,9 @@ Celkem je horní odhad prostorové složitosti programu $O(n)+O(n)+2=O(n)$.
 
 
 \section*{\centering{2. příklad}}
-Důkaz NP-úplnosti $\rp$ problému bude proveden redukcí z~problému $\sbs$ v~jeho definici z~přednášek.
+Problém $\rp$ je v~$NP$, jelikož lze sestrojit nedeterministický Turingův stroj, který sečte
+váhy nedeterministicky zvolené podmnožiny a porovná je se součtem vah zbylých prvků množiny násobených zadaným poloměrem.
+Důkaz $NP$-těžkosti a zároveň tedy i $NP$-úplnosti $\rp$ problému bude proveden redukcí z~problému $\sbs$ v~jeho definici z~přednášek.
 Váhová funkce u~problému $\rp$ má jako obor hodnot definován obor $\mathbb{N}$ (předpokládejme, že $0 \in \mathbb{N}$), zatímco u~problému
 $\sbs$ je obor hodnot definován pro $\mathbb{Z}$.
 Pokud budeme předpokládat, že i problém $\sbs$ má vahovou funkci definovánu pro obor hodnot $\mathbb{N}$, tak důkaz NP-úplnosti
@@ -87,6 +89,7 @@ kde $w(S) = \sum_{s\in S} w(s)$, $w$ je váhová funkce a $W$ váha podmnožiny 
 Dokažme, že platí $P=NP \Rightarrow \ltl$ je $NP$-úplný.
 Pokud je $\ltl$ $NP$-úplný, tak $\ltl$ je $NP$-těžký a $\ltl \in P$.
 Jazyk $\ltl$ lze přijímat deterministickým Turingovým strojem, který příjme právě řetězec $true$, a tudíž $\ltl \in P$.
+Nyní dokažme, že $\ltl$ je $NP$-těžký.
 Pokud je $\ltl$ $NP$-těžký tak platí, že $\forall L' \in NP: L' \leq \ltl$.
 Je tedy třeba ukázat, že existuje polynomiální redukce z~libovolného jazyka $L' \in NP$ na jazyk $\ltl$.
 Turingův stroj realizující polynomiální redukci by fungoval následujícím způsobem (předpokládejme TS $T_{L'}$ přijímající $L'$ a TS $T_{\ltl}$
@@ -99,11 +102,11 @@ přijímající $\ltl$):
 Jelikož $L' \in NP$ a dle předpokladu $P=NP$, tak první krok stroje realizujícího redukci bude v~$P$.
 Druhý krok stroje má konstantní složitost a třetí je opět v~$P$, protože $\ltl \in P$.
 Celkem má tedy Turingův stroj realizující redukci časovou složitost v~$P$.
-Jelikož existuje polynomiální redukce z~libovolného $L' \in NP$ na $\ltl$, tak $\ltl$ je $NP$-těžké, a tedy $NP$-úplné také.
+Jelikož existuje polynomiální redukce z~libovolného $L' \in NP$ na $\ltl$, tak $\ltl$ je $NP$-těžký, a tedy také $NP$-úplný.
 
 \section*{\centering{4. příklad}}
 V~příkladu 3 bylo ukázáno, že lze provést redukci jazyka $L' \in NP$ v~polynomiálním čase na jazyk $\ltl \in P$.
 Pokud bychom v~třetím kroku stroje z~minulého příkladu provádějícího redukci nahradili stroj $T_{\ltl}$ za stroj $T_L$ přijímající
-nějaký jazyk $L\in NP$, tak by redukce zůstala polynomiální, jelikož předpokládáme $P=NP$, a tudíž $L$ je $NP$-těžký, a tudíž také
+nějaký jazyk $L\in NP$, tak by redukce zůstala polynomiální, jelikož předpokládáme $P=NP$, a tudíž $L$ je $NP$-těžký, a tedy také
 $NP$-úplný.
 \end{document}
