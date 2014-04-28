@@ -53,16 +53,17 @@ Celková složitost je tedy $O(n)+O(n)=O(n)$.
     %\item Pokud funkce vrací \fls\ (stroj zamítne), tak je formule nesplnitelná s~pravděpodobností $\frac{2^m-x}{2^m}$, kde $m$ je počet proměnných a
     %$x$ je počet ohodnocení, pro něž je vstupní formule splnitelná.
 \end{itemize}
-Je zřejmé, že pravděpodobnost špatné odpovědi (ta je rovna $1-\frac{2^m-x}{2^m}$) roste s~počtem proměnných ve formuli
+Je zřejmé, že pravděpodobnost špatné odpovědi (ta je rovna maximálně $1-\frac{1}{2^m}$) roste s~počtem proměnných ve formuli
 (a také klesá s~počtem ohodnocení, při nichž je daná formule splnitelná).
-Pravděpodobnost špatné odpovědi tedy není nezávislá na vstupní formuli.
+Pravděpodobnost špatné odpovědi tedy je závislá na vstupní formuli.
 \\
 
 \noindent\textbf{c)} Dle definice z~b) TS odmítne všechny nesplnitelná SAT formule, jelikož při libovolném náhodně vygenerované ohodnocení nebude
-nikdy formule platit.
-Ovšem existují splnitelné formule s~jedním pravdivým ohodnocením, v~jejichž případě bude $\frac{2^m-1}{2^m}$ výpočtů neakceptujících,
-což je pro $m>1$ menší úspěšnost než $\frac{1}{2}$, a tudíž pro tyto formule patřící do SAT problému není splněna podmínka příslušnosti do třídy RP,
-která říká, že alespoň polovina výpočtů na slově patřícím do daného jazyka je akceptující.
+nikdy formule platit, tudíž je první podmínka příslušnosti do třídy RP splněna.
+Ovšem u~splnitelných formulí s~jedním pravdivým ohodnocením bude $\frac{2^m-1}{2^m}$ výpočtů neakceptujících.
+Podíl úspěšných výpočtů tedy bude $1-\frac{1}{2^m}$ a jelikož $2^m$ není polynom, tak nelze ani opakováním výpočtu (při zachování jeho polynomiální složitosti) 
+dosáhnout splnění druhé podmínky pro příslušnost v~třídě RP říkající,
+že pro řetězec z~daného jazyka musí být alespoň $c$ výpočtů akceptujících, kde $c$ je konstanta z~$(0,1>$.
 Problém SAT tedy nepatří do třídy RP.
 
 \pagebreak
@@ -72,7 +73,7 @@ Napřed ukažme, že $\prt$ patří do $NPO$:
 \begin{itemize}
  \item $I$ je množin dvojic $(S,v)$, tedy $I=\{(S,v)\}$, kde $S$ je konečná množina položek a $v$ jsou jejich váhy (váhová funkce), a protože
   množina $S$ je konečná, tak $I$ patří do $P$.
- \item Pro řešení $A$ platí, že $A\subseteq S$, tedy $|A|\leq |Q|$, a tudíž je řešení ohraničeno polynomem.
+ \item Pro řešení $A$ platí, že $A\subseteq S$, tedy $|A|\leq |S|$, a tudíž je řešení ohraničeno polynomem.
  \item Ověření, zdali je $A$ podmnožinou $S$, lze spočítat v~polynomiálním čase, což znamená, že také lze ve stejném čase rozhodnout, zdali $A$ je přípustné řešení.
  \item Cena řešení $A$ je ze zadání definována jako rozdíl dvou sum podmnožin množiny $S$,
  což lze spočítat deterministickým TS v~polynomiálním čase.
