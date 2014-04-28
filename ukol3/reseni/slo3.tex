@@ -1,0 +1,96 @@
+%Autor: Martin Hruska
+%E-mail: xhrusk16@stud.fit.vutbr.cz
+%Datum: 27.4.2014
+
+\documentclass[a4paper]{article}
+\usepackage[left=1.5cm, text={18cm, 25cm}, top=2.5cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{automata,arrows,topaths}
+
+\usepackage{mdwlist}
+\newcommand{\myuv}[1]{\quotedblbase #1\textquotedblleft}
+\newcommand{\fls}{false}
+\newcommand{\tre}{true}
+\newcommand{\prt}{OPT\_PARTITION}
+
+
+\usepackage{atbegshi,picture}
+\AtBeginShipout{\AtBeginShipoutUpperLeft{%
+  \put(\dimexpr\paperwidth-1cm\relax,-1.5cm){\makebox[0pt][r]{\framebox{Martin Hruška, xhrusk16}}}%
+}}
+
+
+\title {3. úloha}
+\begin {document}
+\section*{\centering{1. příklad}}
+\textbf{a)} Předpokládejme, že $n$ je délka vstupu.
+Časová složitost výpočtu následující:
+\begin{itemize}
+    \item Cyklus pro náhodné ohodnocení proměnných se opakuje maximálně $n$-krát, jelikož počet proměnných nebude nikdy větší než
+     délka vstupní formule.
+    Tedy složitosti cyklu je $O(n)$.
+    \item Vyhodnocení formule lze provést v~lineárním čase $O(n)$.
+    V~lineárním průchodu jsou vyhodnocovány jednotlivé klausule (a literály) a pokud je některá z~nich vyhodnocena jako \fls, tak je
+    je celá formule vyhodnocena jako \fls.
+    Pokud jsou všechny \tre, tak je celá formule ohodnocena jako \tre.
+\end{itemize}
+Celková složitost je tedy $O(n)+O(n)=O(n)$.
+\\
+
+\noindent\textbf{b)} Pro funkci \emph{SAT} (respektive pro TS ji realizující) platí následující:
+\begin{itemize}
+    \item Pokud funkce vrací \tre (stroj příjme), tak je formule určitě splnitelná, jelikož bylo nalezeno příslušné ohodnocení.
+    \item Pokdu funkce vrací \fls (stroj zamítne), tak je formule nesplitelná s~pravděpodobností $\frac{2^m-x}{2^m}$, kde $m$ je počet proměnných a
+    $x$ je počet ohodnocení, pro něž je vstupní formule splnitelná.
+\end{itemize}
+Je zřejmé, že pravděpodobnost špatné odpovědi (ta je rovna $1-\frac{1}{2^m}$) roste s~počtem proměnných ve formuli a
+klesá s~počtem ohodnocení, při nichž je daná formule splnitelná.
+Pravděpodobnost špatné odpovědi tedy není nezávislá na vstupní formuli.
+\\
+
+\noindent\textbf{c)} Dle definice z~b) stroj odmítne všechny nesplitelné SAT formule, jelikož při libovolném náhodně vygenerované ohodnocení nebude
+nikdy formule platit.
+Ovšem existují splnitelné formule s~jediním pravdivým ohodnocením, v~jejichž případě bude $\frac{2^m-1}{2^m}$ výpočtů neakceptujících,
+což je pro $m>1$ méně než $\frac{1}{2}$, a tudíž SAT problém nepatří do třídy RP.
+
+\pagebreak
+
+\section*{\centering{2. příklad}}
+Napřed ukažme, že $\prt$ patří do $NPO$:
+\begin{itemize}
+ \item $I=\{S,v\}$, kde $S$ je množina položek a $v$ jejich váhy (váhová funkce), patří zřejmě do $P$.
+ \item Pro řešení $A$ platí, že $A\subseteq S$ a je tedy ohraničeno polynomem a ověření, zdali je $A$ podmnožinou $S$, lze spočítat v~polynomiálním čase,
+       takže také lze ve stejném čase rozhodnout zdali $A$ je přípustné řešení.
+ \item Cena řešení $A$ je ze zadání definována jako rozdíl dvou sum podmnožin množiny $S$,
+ což lze spočítat deterministickým TS v~polynomiálním čase.
+\end{itemize}
+ Zároveň problém $\prt$ patří do $NPO$ a nikoliv do $PO$, jelikož asociovaný problém s~$\prt$ by pak musel být v~$P$, což neplatí.
+
+ Nyní sporem dokážeme, že neexistuje absolutním optimalizační algoritmus pro problém $\prt$, pokud $P \neq NP$.
+ Předpokládejme tedy, že takový algoritmus existuje.
+ Označme tento algoritmus jako $O$ a předpokládejme, že pracuje s~chybou $k$.
+ Na základě algoritmu $O$ navrhneme nový algoritmus, který pro libovolný případ $x$ problém $\prt$ najde jeho optimální řešení.
+ Tento algoritmus bude pracovat tak, že libovolný případ $x$ přeformuluje na nový případ $x'$ problému $\prt$.
+ Pro $x'$ platí, že $v'=(k+1)*v$, jinak je shodný s~$x$.
+ Pro množinu přípustných řešení případu $x'$ platí, že $F(x')=F(x)$, jelikož opět vybíráme možné podmnožiny množiny položek $S$.
+ Cena řešení u~$x'$ bude ovšem $(k+1)$-krát větší než u~$x$.
+ Nyní pusťme na případu $x'$ algoritmus $O$ a dostaneme výsledek $O(x')$ s~chybou $k$ (tedy chybou algoritmu $O$).
+ Platí tedy následující:
+ $$ ||\sum_{x\in (x'\setminus O(x'))} v'(x)\ - \sum_{x\in O(x')} v'(x)| - OPT(x')| \leq k~$$
+ Po dosazení s~ohledem na změnu váhové funkce a úpravách postupně dostaneme:
+ $$ ||\sum_{x\in (x'\setminus O(x'))} (k+1)*v(x)\ - \sum_{x\in O(x')} (k+1)*v(x)| - (k+1)*OPT(x)| \leq k$$
+ $$ |(k+1)*|\sum_{x\in (x'\setminus O(x'))} v(x)\ - \sum_{x\in O(x')} v(x)| - (k+1)*OPT(x)| \leq k$$
+ $$ ||\sum_{x\in (x'\setminus O(x'))} v(x)\ - \sum_{x\in O(x')} v(x)| - OPT(x)| \leq \frac{k}{k+1}$$
+ $$ ||\sum_{x\in (x'\setminus O(x'))} v(x)\ - \sum_{x\in O(x')} v(x)| - OPT(x)| \leq 0$$
+ Poslendí krok je možný, jelikož pracujeme pouze s~přirozenými čísly.
+ Dostáváme tedy, že $O(x')$ je optimálním řešením $x$, což je ovšem možné pouze když $P=NP$, což je spor s~předpokladem,
+ a tedy nemůže existovat absolutní aproximační algoritmus $\square$
+\end{document}
+
