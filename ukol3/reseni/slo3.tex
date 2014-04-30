@@ -30,12 +30,12 @@
 \title {3. úloha}
 \begin {document}
 \section*{\centering{1. příklad}}
-\textbf{a)} Předpokládejme, že $n$ je délka vstupu.
+\textbf{a)} Předpokládejme, že $n$ je délka vstupu daná počtem literálů ve vstupní formuli.
 Časová složitost výpočtu následující:
 \begin{itemize}
     \item Cyklus pro náhodné ohodnocení proměnných se opakuje maximálně $n$-krát, jelikož počet proměnných nebude nikdy větší než
      délka vstupní formule.
-    Tedy složitosti cyklu je $O(n)$.
+    Tedy složitost cyklu je $O(n)$.
     \item Vyhodnocení formule lze provést v~lineárním čase $O(n)$.
     V~lineárním průchodu jsou vyhodnocovány jednotlivé klausule (a literály) a pokud je některá z~nich vyhodnocena jako \fls, tak je
     je celá formule vyhodnocena jako \fls.
@@ -58,12 +58,12 @@ Je zřejmé, že pravděpodobnost špatné odpovědi (ta je rovna maximálně $1
 Pravděpodobnost špatné odpovědi tedy je závislá na vstupní formuli.
 \\
 
-\noindent\textbf{c)} Dle definice z~b) TS odmítne všechny nesplnitelná SAT formule, jelikož při libovolném náhodně vygenerované ohodnocení nebude
+\noindent\textbf{c)} Dle definice z~b) TS odmítne všechny nesplnitelné SAT formule, jelikož při libovolném náhodně vygenerované ohodnocení nebude
 nikdy formule platit, tudíž je první podmínka příslušnosti do třídy RP splněna.
 Ovšem u~splnitelných formulí s~jedním pravdivým ohodnocením bude $\frac{2^m-1}{2^m}$ výpočtů neakceptujících.
 Podíl úspěšných výpočtů tedy bude $1-\frac{1}{2^m}$ a jelikož $2^m$ není polynom, tak nelze ani opakováním výpočtu (při zachování jeho polynomiální složitosti) 
 dosáhnout splnění druhé podmínky pro příslušnost v~třídě RP říkající,
-že pro řetězec z~daného jazyka musí být alespoň $c$ výpočtů akceptujících, kde $c$ je konstanta z~$(0,1>$.
+že pro řetězec z~daného jazyka musí být podíl akceptujících výpočtů alespoň $c$, kde $c$ je konstanta z~$(0,1>$.
 Problém SAT tedy nepatří do třídy RP.
 
 \pagebreak
@@ -71,10 +71,11 @@ Problém SAT tedy nepatří do třídy RP.
 \section*{\centering{2. příklad}}
 Napřed ukažme, že $\prt$ patří do $NPO$:
 \begin{itemize}
- \item $I$ je množin dvojic $(S,v)$, tedy $I=\{(S,v)\}$, kde $S$ je konečná množina položek a $v$ jsou jejich váhy (váhová funkce), a protože
-  množina $S$ je konečná, tak $I$ patří do $P$.
+ \item $I$ je množin dvojic $(S,v)$, tedy $I=\{(S,v)\}$, kde $S$ je konečná množina položek a $v$ jsou jejich váhy (váhová funkce).
+  Jelikož lze deterministickým Turingovým strojem v~polynomiálním čase ověřit (postupně prochází množinu $S$ a kontroluje,
+  zda jednotlivé prvky mají definovanou váhu), že dvojice $(S,v)$ je korektně zadanou instancí $I$, tak $I$ patří do $P$.
  \item Pro řešení $A$ platí, že $A\subseteq S$, tedy $|A|\leq |S|$, a tudíž je řešení ohraničeno polynomem.
- \item Ověření, zdali je $A$ podmnožinou $S$, lze spočítat v~polynomiálním čase, což znamená, že také lze ve stejném čase rozhodnout, zdali $A$ je přípustné řešení.
+ \item Ověření, zdali je $A$ podmnožinou $S$, lze prověřit v~polynomiálním čase, což znamená, že také lze ve stejném čase rozhodnout, zdali $A$ je přípustné řešení.
  \item Cena řešení $A$ je ze zadání definována jako rozdíl dvou sum podmnožin množiny $S$,
  což lze spočítat deterministickým TS v~polynomiálním čase.
 \end{itemize}
