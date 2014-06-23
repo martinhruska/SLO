@@ -18,7 +18,7 @@
 \newcommand{\myuv}[1]{\quotedblbase #1\textquotedblleft}
 \newcommand{\fls}{false}
 \newcommand{\tre}{true}
-\newcommand{\prt}{OPT\_PARTITION}
+\newcommand{\sbs}{\# SUBSET\ SUM}
 
 
 \usepackage{atbegshi,picture}
@@ -30,23 +30,52 @@
 \title {4. úloha}
 \begin {document}
 \section*{\centering{1. příklad}}
-Důkaz provedeme sporem s předpokladem, že \emph{klika} je $\epsilon$-aproximační:
+Důkaz provedeme sporem s~předpokladem, že \emph{klika} je $\epsilon$-aproximační:
 \begin{itemize}
-    \item Graf, jehož uzel \emph{max} má stupeň je $k$, bude mít kliku velkou maximálně $k+1$ a to v případě,
-    že všechny hrany uzlu \emph{max} spojují uzel s dalšími uzly, které patří do kliky.
-    $k+1$ je tedy pro tyto grafy optimální řešení problému klika.
-    \item Uvažujme, že uzel \emph{max} má stupeň alespoň $k \geq 2$.
+    \item Graf, jehož uzel \emph{max} má stupeň je $k$, bude mít kliku velkou maximálně $k+1$ a to v~případě,
+    že všechny hrany uzlu \emph{max} spojují uzel s~dalšími uzly, které patří do kliky.
+    Klika o~velikosti $k+1$ je tedy pro tyto grafy optimálním řešením.
+    \item Uvažujme, že uzel \emph{max} má stupeň alespoň $k \geq 2$ (jinak algoritmus najde vždy optimální řešení, protože
+    graf nebude mít kliku větší než 2).
     Jeho klika bude mít tedy velikost maximálně $k+1$,
-    ale algoritmus \emph{klika} najde řešení o velikosti $2$.
-    To nastane v případě, kdy na začátku bylo vybráno mezi uzly $A,B$, jejichž stupeň je $k$ a $A>B$,
-    ale $A$ patří do kliky pouze o velikosti $2$.
+    ale algoritmus \emph{klika} najde řešení o~velikosti $2$.
+    To nastane v~případě, kdy na začátku bylo vybráno mezi uzly $A,B$, jejichž stupeň je $k$ a $A>B$,
+    ale $A$ patří do kliky pouze o~velikosti $2$.
     Menší klika existovat nemůže, protože by $A$ neměl stupeň $k \geq 2$.
     \item Předpokládejme nyní, že je klika $\epsilon$-aproximační, kde $\epsilon <1$, pak by muselo platit:
     $$ \frac{k+1-2}{k+1} < \epsilon$$
     $$ \frac{k-1}{k+1} < \epsilon$$
     Což ale pro žádné $\epsilon < 1$ neplatí, protože hodnota $\frac{k-1}{k+1}$ se bude pro rostoucí $k$
-    neustále přibližovat hodnotě $1$ a nelze ji tedy ohraničit žádným číslem menším než $1$.
+    neustále přibližovat hodnotě $1$ a nelze ji tedy ohraničit žádným číslem menším než $1$ $\square$
 \end{itemize}
-\section*{\centering{2. příklad}}
-\end{document}
 
+\section*{\centering{2. příklad}}
+Napřed ukážeme, že $\sbs \in \#P$:
+\begin{itemize}
+    \item Relace $R$ spojená s~$\sbs\ $ je polynomiálně vyvážená, protože pokud
+    $(X,Y) \in R$, kde $X=(X',w,W)$, $X'$ je množina položek, $w$ množina jejich vah a $W$ požadovaná váha řešení,
+    tak $Y \subseteq X'$ a tedy $|Y| \leq |X'| \leq |X|$.
+    \item Je-li dáno $X$ a $Y$, tak lze polynomiálně rozhodnout, zdali $(X,Y)\in R$ tak,
+    že Turingův stroj sečte váhy všech prvků $Y$ a pokud jsou rovny $W$, tak $(X,Y)\in R$.
+\end{itemize}
+Nyní přistupme k~důkazu, že $\sbs$\ je NP-úplný.
+Důkaz bude proveden redukcí ze $\#SAT$ (přesněji $\# 3-SAT$) následujícím způsobem:
+\begin{itemize}
+ \item Základem této redukce je redukce $SAT$ na $SUBSET\ SUM$ uvedená přednáškách.
+ Tato redukce je část $R$ udávající zobrazení případů problému $\# SAT$ na případy problému $\sbs$.
+ Následující notace je stejná jako na přednáškách.
+ \item Nyní bude ukázáno jak pracuje funkce $S$, tedy jak lze pro každé řešení $\sbs$\ dostat zpět řešení $\# SAT$.
+ \begin{itemize}
+    \item Pokud má problém $SUBSET\ SUM$ řešení, tak vybraná podmnožina obsahuje buď $t_i$ nebo $f_i$, kde $i\in\{0,\ldots,n-1\}$ a
+    $n$ je počet proměnných redukovaného $SAT$ problému, protože jinak by prvních $n$ cifer v~čísle udávajícím váhu
+    podmnožiny nemělo hodnotu právě $1$, což je nezbytné vzhledem k~tomu, že $W$ má vždy hodnotu $1_0,\ldots,1_{n-1}3_0, \ldots,
+    3_{k-1}$, kde $k$ je počet klausulí případu $SAT$ problému.
+    Pokud je tedy v~podmnožině $t_i$, tak proměnná $x_i$ v~$SAT$ problému bude ohodnocena jako true, pokud $f_i$, tak jako false.
+    Pro každé řešení $SUBSET\ SUM$ tedy dostáváme ohodnocení pro $SAT$ problém.
+    Pokud tedy řešení $SUBSET\ SUM$ obsahuje jiný výběr prvků $t_i, f_i$ dostáváme jiné ohodnocení, a tedy pro každé
+    ohodnocení $SAT$ problému dostaneme odlišné řešení $SUBSET\ SUM$, a tedy je identický počet ohodnocení $SAT$ problému
+    jako řešení $SUBSET\ SUM$.
+ \end{itemize}
+Uvedená redukce je tedy šetrná, a tudíž je možné provést redukci ze $\#SAT$ na $\sbs$ $\square$
+\end{itemize}
+\end{document}
